@@ -41,7 +41,7 @@ class Fib extends Component {
       index: this.state.index
     });
     
-    this.setState({ index: '' }. () => {
+    this.setState({ index: '' }, () => {
       setTimeout(() => {
         this.setState({ render: this.state.render + 1})
       }, 2000);
