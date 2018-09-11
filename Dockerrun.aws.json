@@ -1,0 +1,39 @@
+{
+  "AWSEBDockerrunVersion": 2,
+  "containerDefinitions": [
+    {
+      "name": "client", 
+      "image": "tanguven/multi_client",
+      "hostname": "client",
+      "essential": false,
+      "memory": 256
+    },
+    {
+      "name": "server", 
+      "image": "tanguven/multi_server",
+      "hostname": "api",
+      "essential": false,
+      "memory": 256
+    },
+    {
+      "name": "worker", 
+      "image": "tanguven/multi_worker",
+      "hostname": "worker",
+      "essential": false,
+      "memory": 256
+    },
+    {
+      "name": "nginx", 
+      "image": "tanguven/multi_nginx",
+      "essential": true,
+      "portMappings" : [
+        { 
+          "hostPort": 80,
+          "containerPort": 80
+        }
+      ],
+      "links": ["client", "server"],
+      "memory": 256
+    }
+  ]
+}
