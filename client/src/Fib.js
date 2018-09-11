@@ -6,12 +6,20 @@ class Fib extends Component {
   state = {
     seenIndexes: [],
     values: {},
-    index: ''
+    index: '',
+    render: 0
   };
 
   componentDidMount() {
     this.fetchValues();
     this.fetchIndexes();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.render !== this.state.render) {
+      this.fetchValues();
+      this.fetchIndexes();
+    }
   }
 
   async fetchValues() {
@@ -33,7 +41,11 @@ class Fib extends Component {
       index: this.state.index
     });
     
-    this.setState({ index: '' });
+    this.setState({ index: '' }. () => {
+      setTimeout(() => {
+        this.setState({ render: this.state.render + 1})
+      }, 2000);
+    });
   };
 
   renderSeenIndexes() {
