@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t tanguven/react-test -f ./client/Dockerfile.dev ./client
+
+script: 
+  - docker run tanguven/react-test npm run test -- --coverage
+
+after_success:
+  - docker build -t tanguven/multi-client ./client
+  - docker build -t tanguven/multi-nginx ./nginx
+  - docker build -t tanguven/multi-server ./server
+  - docker build -t tanguven/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push tanguven/multi-client
+  - docker push tanguven/multi-nginx
+  - docker push tanguven/multi-server
+  - docker push tanguven/multi-worker
